@@ -1,0 +1,35 @@
+깃 명령어 사용법 정리
+
+git init // 깃 설치하는 거다
+
+git status // 깃 상태볼때 쓴다(추가된거나 수정된거)
+
+git config --global user.kjyoung212 
+
+git config --global user.kjyoung212@naver.com   ///////config 는 그냥 자기꺼 깃허브 설정해주는거다 .!!
+
+git remote add origin https://github.com/kowonsik/raspberry.git --> 자기꺼로 바꿔서 한다
+
+git pull -u origin master     # 파일 다운로드 
+
+git add [생성한파일] // 파일 생성한거를 깃에 추가
+
+git status
+
+git commit -m "메세지"  // 작성자나 그냥 메시지를 남긴다 , 명령 실행하는거
+
+git status
+
+git push -u origin master     # 파일 업데이트
+
+origin url 설정이 잘못되서 origin을 삭제(수정)해야할 경우
+
+git remote rm origin
+
+git remote rename origin origin_re
+
+git push error // 푸시했을때 에러가나면 써주는것
+
+url return error
+
+git remote set-url origin git@github.com:kowonsik/레포지터리이름.git
