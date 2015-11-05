@@ -17,13 +17,3 @@ cat /home/유저/.ssh/id_rsa.pub
 ---------------------------------------- 연결 에러 났을시 이렇게 해주면 된다.!
 
 ------------------------------------------------
-깃 명령어 사용법 정리
-git init // 깃 설치하는 거다
-
-git status // 깃 상태볼때 쓴다(추가된거나 수정된거)
-
-git config --global user.kjyoung212 
-
-git config --global user.kjyoung212@naver.com
-
-config 는 그냥 자기꺼 깃허브 설정해주는거다 .!!
