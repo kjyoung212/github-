@@ -1,0 +1,70 @@
+git add [Directory|파일 경로] //Untracked 파일을 Tracked 파일로 변경하거나, Tracked&수정된 파일을 staging 한다.
+git status  //현재 상태 보기 
+
+git commit -m "commit message"  //로컬 저장소에 commit(저장)
+git commit -a -m "commit message"  // staging area 생략 commit (git add 과정 생략)
+git commit --amend //수정한 내용이 없으면 커밋 메세지만 변경하고 수정한 내용이 있으면 이전 커밋으로 수정내용을 포함하여 새로운 커밋으로 덮어쓴다.
+git rebase -i HEAD~2 // HEAD으로 부터 2개의(HEAD 포함) commit을 합친다.
+
+git rm <filename>  // 파일을 삭제한 후 staged 상태로 만든다. (work directory의 파일도 삭제됨)
+git rm --cached <filename> // 해당 파일을 untracked 상태로 변경한다. (work directory의 파일은 그대로 있는다. ignore를 빼먹은 경우 사용)
+git mv <origin_file> <target_file> // 히스토리를 유지한 상태로 파일이름을 변경하고, 해당 변경사항이 staged 상태가 된다. 
+     ==> "mv <origin_file> <target_file>; git rm <origin_file>; git add <target_file>" 과 동일하다.
+git log [-p] -5  [--pretty=online|short|full|fuller]  //commit 로그를 확인한다.(최근 5개의 로그 확인) (-p 옵션은 각 커밋의 diff 결과를 보여준다.)
+git log --pretty=format:"%h %s" --graph // 브랜치/머지 히스토리를 아스키 그래프로 보여준다.
+git log --stat // 히스토리 통계를 보여준다.
+
+git checkout <commit_id> // 특정 커밋시점으로 되돌린다. 
+git checkout <branch명>  //지정된 브랜치가 가리키는 커밋을 HEAD가 가리키게 한다. (작업 디렉토리의 파일은 그대로 유지됨)
+git checkout -b <branch명> //새로운 브랜치를 만들고  해당 브랜치를 checkout 한다.
+git checkout -b <new branch name> <server branch name> // 서버에서 생성되어 있는 브랜치 가져오기
+git checkout  <commit_id> -- <file> // 특정 커밋시점의 특정 파일만 되돌린다.
+git checkout -- <file>  // work directory의 변경된 unstaged 파일을 최신 커밋된 내용으로 덮어쓴다. (작업중이던 내용이 있으면 날라가며, 복구 불가!!!)
+git checkout -f // 현재 HEAD가 가리키는 커밋으로 작업 디렉토리의 파일을 되돌려 놓는다. (작업중이던 내용이 있으면 날라가며, 복구 불가!!!)
+git checkout -f <branch>//  branch가 가리키는 커밋으로 작업 디렉토리의 파일을 되돌려 놓는다. (작업중이던 내용이 있으면 날라가며, 복구 불가!!!)
+git reset HEAD <staged_file> // staged file을 unstaged로 변경한다.
+
+git reset HEAD^    // 최종 커밋을 취소. 워킹트리는 보존됨. (커밋은 했으나 push하지 않은 경우 유용)
+git reset HEAD~2     //마지막 2개의 커밋을 취소. 워킹트리는 보존됨.
+git reset --hard HEAD~2    // 마지막 2개의 커밋을 취소. index 및 워킹트리 모두 원복됨.
+git reset --hard ORIG_HEAD    // 머지한 것을 이미 커밋했을 때,  그 커밋을 취소. (잘못된 머지를 이미 커밋한 경우 유용)
+git revert HEAD    // HEAD에서 변경한 내역을 취소하는 새로운 커밋 발행(undo commit). (커밋을 이미 push 해버린 경우 유용)
+
+git diff  // work directory와 staged 영역 비교
+git diff --cached // staged 영역과 & 저장소 commit 간의 비교 ("git diff --staged" 명령과 동일)
+
+git branch <branch명> //새로운 branch를 만든다. 
+git branch [-a]  //branch 목록을 조회한다.
+git branch -m [old_branch] [new_branch]
+git branch -d <branch명> //브랜치 삭제
+
+git tag [-l] [v.1.4.*]   //Tag 목록조회 [v1.4 버전들의 목록만 조회]
+git tag -a <tag명> -m '[tag message]'  //주석 태그 추가   ex>git tag -a v1.0 -m 'add first release tag'
+git tag -s <tag명> -m '[tag message]' //서명된주석 태그 추가
+git tag <tag명>  //경량 버전 태그 추가 
+git tag -a <tag명> [commit hash]  // 특정 commit의 태그 추가
+git show <tag명>  // 태그정보와 해당 태그의 commit 정보를 확인한다. 
+
+git remote [-v] // 원격 저장소 정보 확인
+git remote show <remote명> //리모트 저장소 살펴보기 
+git remote add <remote명> <원격저장소URL> //원격 저장소를 추가한다.
+git remote rename <old_name> <new_name> //remote repository 이름 변경
+git remote rm <remote-name>  //remote repository 삭제 
+git fetch [remote명]  //Remote Repository의 최신 변경사항을 Local Respository로 가져옮
+git pull [remote명] [branch명]   //remote 저장소 브랜치에서 데이터를 가져와 자동으로 로컬 브랜치와 머지함
+git push [remote명] [branch명] //local branch의 내용을 remote 저장소에 push 한다. 
+git push [remote명] [tag명]  //local에 생성한 tag를 remote 에 추가한다.
+git push [remote명] --tags  //local에 존재하는 tag중에 remote에 존재하지 않는 모든 태그들을 push 한다.  
+git push <remote명> <local branch>:<remote branch> // 내가 최초로 서버에 브랜치 만들기
+
+git merge <from_branch> <to_branch> // from branch를 to branch와 머지한다.
+git mergetool // merge할 툴을 실행시켜 준다.
+
+git submodule add <Git Repository URL> <Directory Path>  // Git Submodule 추가
+git submodule init  // Git Submodule 초기화 [init -> update]
+git submodule update // Git Submodule 소스 코드 받아오기 [init -> update]
+
+git hash-object -w <filename> // 파일을 Git에 저장하고 해쉬코드를 출력한다.
+git cat-file -p <hashcode> // 해쉬코드에 해당하는 개체의 내용을 출력한다.
+git cat-file -t <hashcode> // 해쉬코드에 해당하는 개체의 타입을 출력한다.
+git cat-file -p master^{tree} // master 브랜치가 가리키는 Tree 개체의 내용을 출력한다.
